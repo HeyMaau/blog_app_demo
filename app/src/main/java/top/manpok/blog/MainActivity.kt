@@ -21,6 +21,7 @@ import retrofit2.Response
 import top.manpok.blog.controller.UserApi
 import top.manpok.blog.databinding.ActivityMainBinding
 import top.manpok.blog.model.LoginResult
+import top.manpok.blog.model.ScanQRCodeResult
 import top.manpok.blog.utils.RetrofitManager
 import top.manpok.blog.utils.SPUtil
 
@@ -71,12 +72,12 @@ class MainActivity : AppCompatActivity() {
         val tokenKey = SPUtil.getUserInfoSP().getString(Constants.SP_KEY_USER_TOKEN, "");
         val tokenMap = mapOf(Constants.SP_KEY_USER_TOKEN to tokenKey)
         val call = request.scanQRCode(code, tokenMap)
-        call.enqueue(object : Callback<LoginResult> {
-            override fun onResponse(call: Call<LoginResult>, response: Response<LoginResult>) {
+        call.enqueue(object : Callback<ScanQRCodeResult> {
+            override fun onResponse(call: Call<ScanQRCodeResult>, response: Response<ScanQRCodeResult>) {
                 Log.d(TAG, "result: ${response.body()}")
             }
 
-            override fun onFailure(call: Call<LoginResult>, t: Throwable) {
+            override fun onFailure(call: Call<ScanQRCodeResult>, t: Throwable) {
                 Log.d(TAG, "onFailure: $t")
             }
         })

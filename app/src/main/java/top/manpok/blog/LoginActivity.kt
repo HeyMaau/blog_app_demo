@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import retrofit2.Call
@@ -60,10 +61,12 @@ class LoginActivity : AppCompatActivity() {
                 edit.putString(Constants.SP_KEY_USER_TOKEN, loginResult?.data?.token_key)
                 edit.apply()
                 Log.d(TAG, "login ----> $loginResult")
+                finish()
             }
 
             override fun onFailure(call: Call<LoginResult>, t: Throwable) {
                 Log.d(TAG, "onFailure: ${t.toString()}")
+                Toast.makeText(this@LoginActivity, "登录失败", Toast.LENGTH_SHORT)
             }
 
         })

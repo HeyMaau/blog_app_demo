@@ -4,6 +4,7 @@ import retrofit2.Call
 import retrofit2.http.*
 import top.manpok.blog.model.BlogUser
 import top.manpok.blog.model.LoginResult
+import top.manpok.blog.model.ScanQRCodeResult
 
 interface UserApi {
 
@@ -18,5 +19,5 @@ interface UserApi {
     fun scanQRCode(
         @Path("code") code: String,
         @Body tokenMap: Map<String, String?>
-    ): Call<LoginResult>
+    ): Call<ScanQRCodeResult>
 }
