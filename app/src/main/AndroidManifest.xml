@@ -34,6 +34,11 @@
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.BlogAPP.NoActionBar" />
+
+        <activity
+            android:name=".LoginConfirmActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.BlogAPP.NoActionBar" />
     </application>
 
 </manifest>

@@ -4,23 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import com.google.zxing.integration.android.IntentIntegrator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import top.manpok.blog.controller.UserApi
-import top.manpok.blog.databinding.ActivityMainBinding
-import top.manpok.blog.model.LoginResult
 import top.manpok.blog.model.ScanQRCodeResult
 import top.manpok.blog.utils.RetrofitManager
 import top.manpok.blog.utils.SPUtil
@@ -73,8 +63,19 @@ class MainActivity : AppCompatActivity() {
         val tokenMap = mapOf(Constants.SP_KEY_USER_TOKEN to tokenKey)
         val call = request.scanQRCode(code, tokenMap)
         call.enqueue(object : Callback<ScanQRCodeResult> {
-            override fun onResponse(call: Call<ScanQRCodeResult>, response: Response<ScanQRCodeResult>) {
-                Log.d(TAG, "result: ${response.body()}")
+            override fun onResponse(
+                call: Call<ScanQRCodeResult>,
+                response: Response<ScanQRCodeResult>
+            ) {
+                val scanQRCodeResult = response.body()
+                if (scanQRCodeResult != null) {
+                    if (scanQRCodeResult.code == 20000) {
+                        val intent = Intent(this@MainActivity, LoginConfirmActivity::class.java)
+                        intent.putExtra("user", scanQRCodeResult.data)
+                        startActivity(intent)
+                    }
+                }
+                Log.d(TAG, "result: $scanQRCodeResult")
             }
 
             override fun onFailure(call: Call<ScanQRCodeResult>, t: Throwable) {
