@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
                     if (scanQRCodeResult.code == 20000) {
                         val intent = Intent(this@MainActivity, LoginConfirmActivity::class.java)
                         intent.putExtra("user", scanQRCodeResult.data)
+                        intent.putExtra("code", code)
                         startActivity(intent)
                     }
                 }

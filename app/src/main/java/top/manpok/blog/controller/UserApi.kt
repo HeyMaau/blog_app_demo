@@ -2,6 +2,7 @@ package top.manpok.blog.controller
 
 import retrofit2.Call
 import retrofit2.http.*
+import top.manpok.blog.model.BaseSuccessResult
 import top.manpok.blog.model.BlogUser
 import top.manpok.blog.model.LoginResult
 import top.manpok.blog.model.ScanQRCodeResult
@@ -20,4 +21,7 @@ interface UserApi {
         @Path("code") code: String,
         @Body tokenMap: Map<String, String?>
     ): Call<ScanQRCodeResult>
+
+    @GET("qr_code/confirm/{code}")
+    fun confirmQRCode(@Path("code") code: String?): Call<BaseSuccessResult>
 }

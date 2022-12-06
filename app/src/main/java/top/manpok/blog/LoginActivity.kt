@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<LoginResult>, t: Throwable) {
                 Log.d(TAG, "onFailure: ${t.toString()}")
-                Toast.makeText(this@LoginActivity, "登录失败", Toast.LENGTH_SHORT)
+                Toast.makeText(this@LoginActivity, "登录失败", Toast.LENGTH_SHORT).show()
             }
 
         })

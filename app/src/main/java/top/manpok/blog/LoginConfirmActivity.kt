@@ -4,9 +4,16 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import top.manpok.blog.controller.UserApi
+import top.manpok.blog.model.BaseSuccessResult
 import top.manpok.blog.model.BlogUser
+import top.manpok.blog.utils.RetrofitManager
 
 class LoginConfirmActivity : AppCompatActivity() {
 
@@ -27,7 +34,32 @@ class LoginConfirmActivity : AppCompatActivity() {
     }
 
     private fun initListener() {
-        btnConfirm.setOnClickListener { }
+        btnConfirm.setOnClickListener {
+            val request = RetrofitManager.getRetrofit().create(UserApi::class.java)
+            val code = intent.getStringExtra("code")
+            request.confirmQRCode(code).enqueue(object : Callback<BaseSuccessResult> {
+                override fun onResponse(
+                    call: Call<BaseSuccessResult>,
+                    response: Response<BaseSuccessResult>
+                ) {
+                    val result = response.body()
+                    if (result?.code == 20000) {
+                        Toast.makeText(this@LoginConfirmActivity, "扫码登录成功", Toast.LENGTH_SHORT)
+                            .show()
+                        finish()
+                    } else {
+                        Toast.makeText(this@LoginConfirmActivity, "扫码登录失败", Toast.LENGTH_SHORT)
+                            .show()
+                        finish()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseSuccessResult>, t: Throwable) {
+                    Toast.makeText(this@LoginConfirmActivity, "扫码登录失败", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            })
+        }
         btnCancel.setOnClickListener { finish() }
     }
 
